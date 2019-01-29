@@ -30,6 +30,6 @@ bool USensorMsgsCompressedImageConverter::ConvertOutgoingMessage(TSharedPtr<FROS
       "format", BCON_UTF8(TCHAR_TO_UTF8(*Image->format))
   );
   auto size = FCString::Atoi(*(Image->header.frame_id));
-  bson_append_binary(*message, "data", -1, BSON_SUBTYPE_BINARY, Image->data, size );
+  bson_append_binary(*message, "data", -1, BSON_SUBTYPE_BINARY, Image->data, Image->data_size);
   return true;
 }
