@@ -2,6 +2,13 @@
 
 #include <CoreMinimal.h>
 #include <Engine/GameInstance.h>
+
+#include <iostream>
+// #include <cstdlib>
+#include <stdlib.h>
+#include <string>
+#include <GenericPlatform/GenericPlatformMisc.h>
+
 #include "ROSIntegrationCore.h"
 
 #include "ROSIntegrationGameInstance.generated.h"

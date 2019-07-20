@@ -28,6 +28,17 @@ void UROSIntegrationGameInstance::Init()
 		FROSTime::SetUseSimTime(false);
 
 		ROSIntegrationCore = NewObject<UROSIntegrationCore>(UROSIntegrationCore::StaticClass());
+
+		char* pNEPTUNE_MASTER_IP ;
+		pNEPTUNE_MASTER_IP = getenv("NEPTUNE_MASTER_IP") ;
+		if (pNEPTUNE_MASTER_IP != nullptr ){
+			FString fstr_pNEPTUNE_MASTER_IP(pNEPTUNE_MASTER_IP) ;
+			UE_LOG(LogROS, Warning, TEXT(" NEPTUNE_MASTER_IP = %s"), *fstr_pNEPTUNE_MASTER_IP );
+			ROSBridgeServerHost = fstr_pNEPTUNE_MASTER_IP ;
+		}
+
+		UE_LOG(LogROS, Warning, TEXT("UROSIntegrationGameInstance::Init NEPTUNE_MASTER_ROS_BRIDGE_SERVER_IP:Port = %s:%d"), *ROSBridgeServerHost, ROSBridgeServerPort);
+
 		bIsConnected = ROSIntegrationCore->Init(ROSBridgeServerHost, ROSBridgeServerPort);
 
 		GetTimerManager().SetTimer(TimerHandle_CheckHealth, this, &UROSIntegrationGameInstance::CheckROSBridgeHealth, 1.0f, true, 5.0f);
