@@ -35,6 +35,8 @@ void UROSIntegrationGameInstance::Init()
 			FString fstr_pNEPTUNE_MASTER_IP(pNEPTUNE_MASTER_IP) ;
 			UE_LOG(LogROS, Warning, TEXT(" NEPTUNE_MASTER_IP = %s"), *fstr_pNEPTUNE_MASTER_IP );
 			ROSBridgeServerHost = fstr_pNEPTUNE_MASTER_IP ;
+		}else{
+			ROSBridgeServerHost = "127.0.0.1" ;
 		}
 
 		UE_LOG(LogROS, Warning, TEXT("UROSIntegrationGameInstance::Init NEPTUNE_MASTER_ROS_BRIDGE_SERVER_IP:Port = %s:%d"), *ROSBridgeServerHost, ROSBridgeServerPort);
