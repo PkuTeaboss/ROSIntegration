@@ -132,7 +132,7 @@ int TCPConnection::ReceiverThreadFunction()
 		}
 
 		static int count_failed_to_recv = 0 ;
-		const int kFailed_Limit = 100 ;
+		const int kFailed_Limit = 10 ;
 		if (bson_only_mode_) {
 			if (bson_state_read_length) {
 				bson_msg_length_read = 0;
