@@ -131,6 +131,8 @@ int TCPConnection::ReceiverThreadFunction()
 			continue; // check if any errors occured
 		}
 
+		static int count_failed_to_recv = 0 ;
+		const int kFailed_Limit = 100 ;
 		if (bson_only_mode_) {
 			if (bson_state_read_length) {
 				bson_msg_length_read = 0;
@@ -157,6 +159,9 @@ int TCPConnection::ReceiverThreadFunction()
 					}
 				} else {
 					UE_LOG(LogROS, Error, TEXT("Failed to recv()"));
+					if (count_failed_to_recv++ > kFailed_Limit){
+						exit(-1) ;
+					}
 				}
 			} else {
 				// Message retrieval mode
@@ -180,6 +185,9 @@ int TCPConnection::ReceiverThreadFunction()
 					}
 				} else {
 					UE_LOG(LogROS, Error, TEXT("Failed to recv()"));
+					if (count_failed_to_recv++ > kFailed_Limit){
+						exit(-1) ;
+					}
 				}
 			}
 		}
