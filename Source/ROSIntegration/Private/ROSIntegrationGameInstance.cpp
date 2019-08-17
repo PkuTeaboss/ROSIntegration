@@ -38,13 +38,14 @@ void UROSIntegrationGameInstance::Init()
 		}else{
 			ROSBridgeServerHost = "127.0.0.1" ;
 		}
-		
+
 		if (getenv("NeptuneUE4Kubernetes")){
 			std::string neptune_host_ip = "neptune-stateset-0.tssim-srv.default.svc.cluster.local" ; 
 			std::cout << "[NeptuneUE4Kubernetes] exist: " << neptune_host_ip ;
-			ROSBridgeServerHost	= neptune_host_ip ;
+			FString fstr_neptune(neptune_host_ip.c_str()) ;
+			ROSBridgeServerHost	= fstr_neptune ;
 		}else{
-			std::cout << "[NeptuneUE4Kubernetes] does  NOT exist. "
+			std::cout << "[NeptuneUE4Kubernetes] does  NOT exist. " ;
 		}
 
 		UE_LOG(LogROS, Warning, TEXT("UROSIntegrationGameInstance::Init NEPTUNE_MASTER_ROS_BRIDGE_SERVER_IP:Port = %s:%d"), *ROSBridgeServerHost, ROSBridgeServerPort);
