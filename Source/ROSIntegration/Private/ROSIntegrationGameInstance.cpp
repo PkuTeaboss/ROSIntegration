@@ -4,6 +4,10 @@
 #include "ROSTime.h"
 #include "rosgraph_msgs/Clock.h"
 #include "Misc/App.h"
+#include <netdb.h>
+#include <sys/param.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 static void MarkAllROSObjectsAsDisconnected()
 {
@@ -39,9 +43,24 @@ void UROSIntegrationGameInstance::Init()
 			ROSBridgeServerHost = "127.0.0.1" ;
 		}
 
+
+		auto getIpFromDNS = [](std::string dns)->std::string{
+			hostent * record = gethostbyname(dns.c_str() );
+			if(record == NULL)
+			{
+				printf("%s is unavailable\n", dns.c_str() );
+				exit(1);
+			}
+			in_addr * address = (in_addr * )record->h_addr;
+			std::string ip_address = inet_ntoa(* address);
+			return ip_address ;
+		};
+
 		if (getenv("NeptuneUE4Kubernetes")){
 			std::string neptune_host_ip = "neptune-stateset-0.tssim-srv.default.svc.cluster.local" ; 
 			std::cout << "[NeptuneUE4Kubernetes] exist: " << neptune_host_ip ;
+			neptune_host_ip = getIpFromDNS(neptune_host_ip) ;
+			std::cout << "[NeptuneUE4Kubernetes] ip : " << neptune_host_ip ;
 			FString fstr_neptune(neptune_host_ip.c_str()) ;
 			ROSBridgeServerHost	= fstr_neptune ;
 		}else{
